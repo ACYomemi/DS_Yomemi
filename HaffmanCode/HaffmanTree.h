@@ -231,159 +231,6 @@ class HaffmanTree
 		return p;
 	}
 };
-/*class fileEditor
-{
-	private:
-	HaffmanTree ext;
-	ifstream inputFile;
-	ofstream outputFile;
-	string word;
-	string code;
-	string password;
-	int* weight;
-	bool flag;
-	bool pass;
-	bool EndWithTXT(string name)
-	{
-		return (name.find(".txt")==name.length()-4&&name.length()>4);
-	}
-	bool EndWithHAF(string name)
-	{
-		return (name.find(".haf")==name.length()-4&&name.length()>4);
-	}
-	public:
-	FileEditor()
-	{
-		weight=new int[ASCII_RANGE];
-	}
-	bool IsGoodFile()
-	{
-		return inputFile.is_open()&&outputFile.is_open();
-	}
-	void GetFileName(string inputFileName,string outputFileName)
-	{
-		if (EndWithTXT(inputFileName)&&EndWithHAF(outputFileName))
-		{
-			flag=true;
-			inputFile.open(inputFileName.data(),ios::in|ios::binary);
-			outputFile.open(outputFileName.data(),ios::out|ios::binary);
-		}
-		else if (EndWithHAF(inputFileName)&&EndWithTXT(outputFileName))
-		{
-			flag=false;
-			inputFile.open(inputFileName.data(),ios::in|ios::binary);
-			outputFile.open(outputFileName.data(),ios::out|ios::trunc|ios::binary);
-		}
-		else
-		{
-			inputFile.close();
-			outputFile.close();
-		}
-		if (inputFile.peek()==EOF)
-		{
-			inputFile.close();
-			outputFile.close();
-		}
-	}
-	~fileEditor()
-	{
-		delete []weight;
-		if (inputFile.is_open())
-		inputFile.close();
-		if (outputFile.is_open())
-		outputFile.close();
-	}
-	void ReadFrominputFile()
-	{
-		inputFile.seekg(0,ios::beg);
-		if (flag)
-		{
-			string tmp="";
-			while (inputFile.peek()!=EOF)
-			{
-				getline(inputFile,tmp);
-				if (inputFile.peek()!=EOF)
-				tmp+='\n';
-				word+=tmp;
-			}
-		}
-		else
-		{
-			for (int i=0;i<ASCII_RANGE;i++)
-			inputFile>>weight[i];
-			inputFile>>pass;
-			string tmp="";
-			getline(inputFile,tmp);
-			if (pass)
-			getline(inputFile,password);
-			else
-			getline(inputFile,tmp);
-			while (inputFile.peek()!=EOF)
-			{
-				getline(inputFile,tmp);
-				if (inputFile.peek()!=EOF)
-				tmp+='\n';
-				code+=tmp;
-			}
-		}
-	}
-	bool NeedPassword()
-	{
-		return !flag&&pass;
-	}
-	bool GetFlag()
-	{
-		return flag;
-	}
-	void SetPass(bool r)
-	{
-		if (!flag)
-		return;
-		pass=r;
-	}
-	void MakePassword(string word)
-	{
-		if (flag&&pass)
-		password=ext.enCodeStringFrom(word);
-	}
-	bool IsrightPassword(string word)
-	{
-		ext.deCodeStringFrom(password);
-		return NeedPassword()&&ext.enCodeStringFrom(word)==ext.deCodeStringFrom(password);
-	}
-	void generateCode()
-	{
-		if (flag)
-		{
-			for (int i=0;i<ASCII_RANGE;i++)
-			weight[i]=0;
-			for (int i=0;i<word.length();i++)
-			weight[(unsigned char)word[i]]++;
-			ext.initHaffmanTreeByString(word);
-			code=ext.enCodeStringFrom(word);
-		}
-		else
-		{
-			ext.initHaffmanTreeByArray(weight);
-			word=ext.deCodeStringFrom(code);
-		}
-	}
-	void writeToOutputFile()
-	{
-		if (flag)
-		{
-			for (int i=0;i<ASCII_RANGE;i++)
-			outputFile<<weight[i]<<" ";
-			outputFile<<pass<<endl;
-			if (pass)
-			outputFile<<ext.enCodeStringFrom(password);
-			outputFile<<endl;
-			outputFile<<code;
-		}
-		else
-		outputFile<<word;
-	}
-};*/
 class fileEditor
 {
 	protected:
@@ -412,12 +259,10 @@ class fileEditor
 		inputFile.clear();
 		inputFile.seekg(0,ios::end);
 		return inputFile.tellg();
-		//return inputText.length();
 	}
 	int getNewFileSize()
 	{
 		return outputFile.tellp();
-		//return outputText.length();
 	}
 	public:
 	fileEditor()
