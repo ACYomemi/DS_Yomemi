@@ -7,5 +7,4 @@ document.getElementById("login").onclick=function()
     value += (i+1)*word.charCodeAt(i);
   }
   document.getElementById("pwd").value = (value + 14507)%100007;
-  alert(document.getElementById("pwd").value)
 }
