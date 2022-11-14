@@ -2,7 +2,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from Yomemi.models import *
-
+import threading
 
 # 请记得把这里的import语句前缀改成自己的APP名。
 # Create your views here.
@@ -96,3 +96,29 @@ def rank(request):
             # 对于跳转到上一页下一页或者指定页的情况，我计划用js把数据处理一下之后放在下面那个名为page的文本框里，作为要跳转的页码数
             page = request.POST.get('page')
             return render(request, 'rank.html', {'user_list': lst[page * 20:page * 20 + 20], 'page': page})
+        
+# 下面是对战逻辑
+write_dict = threading.Semaphore()
+game_dict = {}
+
+def gaming(request):
+    if not request.session.get('is_login'):
+        request.session['message'] = '登录信息已失效，请重新登入'
+        return redirect('../login/')
+    if request.method == 'POST':
+        game_id = request.POST['game_id']
+        if request.POST['game_state'] == '1':  # 下棋方
+            with write_dict:
+                game_dict[game_id] = (request.POST['new_move'], request.POST['party'])
+            return HttpResponse(status=200)
+        else:  # 等待方
+            new_move, party = game_dict.get(game_id, ('-', '-'))
+            if new_move == '-' or request.POST['party'] == party:
+                return HttpResponse(status=403)
+            else:
+                with write_dict:
+                    game_dict[game_id] = ('-', '-')
+                return HttpResponse(str(new_move))
+
+    else:
+        return render(request, 'test_page.html')
