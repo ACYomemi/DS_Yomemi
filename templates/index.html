@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>输入值测试</title>
+    <style>
+        .search form
+        {
+            margin: auto;
+            text-align: center;
+        }
+        .list, .list table
+        {
+            font-family: "微软雅黑 Light";
+            font-size: 20px;
+            margin: auto;
+            text-align: center;
+        }
+        .list table, .list table td
+        {
+            border: 1px #000000 solid;
+        }
+    </style>
+</head>
+<body>
+    
+<h1>   欢迎您，  {{  name }} 同学。</h1>
+<div class="list">
+    目前，您的成绩如下所示。
+    <table>
+        <tr>
+            <td>全部绩点</td><td>全部学分</td><td>必修绩点</td><td>必修学分</td>
+        </tr>
+        <tr>
+            {% for data in grades %}
+            <td>{{ data }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    到本学期为止，您已经修读了下列课程。
+    <table>
+        <tr>
+            <td>课程号</td><td>课程名</td><td>教师姓名</td><td>课程描述</td><td>成绩</td>
+        </tr>
+        {% for data in course_list %}
+            <tr>
+            {% for key, value in data.items %}
+                {% if not value %}
+                <td>-</td>
+                {% else %}
+                <td>{{value}}</td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+        {%endfor%}
+    </table>
+    </div>
+<form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="登出" name="logout">
+    </form>
+
+
+
+
+
+</body>
+</html>

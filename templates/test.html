@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .search
+        {
+            margin: auto;
+            text-align: center;
+        }
+        .list table
+        {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="search">
+        <input type="hidden" id="csrf" value="{{ csrf_token }}">
+        <input type="text" name="keyword" id="keyword">
+        <button id="search" type="submit" name="search"><a>搜索</a></button>
+        <button id="select" type="submit" name="search"><a>选择</a></button>
+    </div>
+    <div class="list">
+    <table>
+        <tr>
+            <td>选课</td><td>课程号</td><td>课程名</td><td>学分</td><td>教师</td>
+        </tr>
+        {% for data in course_list %}
+            <tr>
+                <td><input type="checkbox" class="check"></td>
+            {% for key, value in data.items %}
+                <td class="course">{{value}}</td>
+            {% endfor %}
+            </tr>
+        {%endfor%}
+    </table>
+    </div>
+<script src="../static/js/jquery-3.6.1.min.js"></script>
+<script src="../static/js/search.js" charset="GB2312"></script>
+</body>
+</html>
