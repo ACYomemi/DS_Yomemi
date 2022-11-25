@@ -17,6 +17,23 @@ Compulsory(dept, course)
 CourseSelect(studentID, courseID, grade)
 Notice(ID, teacherID, text, timestamp)
 '''
+
+
+
+
+def insertdata():
+    StudentInfo.objects.all().update(pwd=hashcode('YOMEMI'))
+    TeacherInfo.objects.all().update(pwd=hashcode('YOMEMI'))
+    # CourseInfo.objects.create(courseID='304427020_01', courseName='¿ªÔ´Ó²¼şÖúÁ¦µÄ´´ĞÂ´´ÒµÊµ¼ù', score=2, teacherID_id='304001002', descript='±¾¿Î³Ì³É¼¨ÑÓ³ÙÖÁÏÂÑ§ÆÚ¹«²¼')
+    # CourseSelect.objects.create(studentID_id='2020141460049', courseID_id='304427020_01')
+    # Compulsory.objects.create(dept='CS', course='304208040')
+    # Compulsory.objects.create(dept='CS', course='304045030')
+    # CourseSelect.objects.create(studentID_id='2020141460049', courseID_id='304208040_04')
+    # CourseSelect.objects.create(studentID_id='2020141460049', courseID_id='304045030_04', grade=97)
+    # StudentInfo.objects.filter(studentName='³ÂÖÙÎÄ').update(totalScore=0, compulsoryScore=0, totalGPA=0, compulsoryGPA=0)
+    return
+
+
 def login(request):
     # insertdata()
     if request.session.get('is_login'):
@@ -43,12 +60,12 @@ def login(request):
                 request.session.set_expiry(0)
                 return redirect('../index/')
             else:
-                return render(request, 'login.html', {'message': 'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯'})
+                return render(request, 'login.html', {'message': 'ÓÃ»§Ãû»òÃÜÂë´íÎó'})
         except ObjectDoesNotExist:
-            return render(request, 'login.html', {'message': 'ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯'})
+            return render(request, 'login.html', {'message': 'ÓÃ»§Ãû»òÃÜÂë´íÎó'})
         except Exception as e:
             print(repr(e))
-            return render(request, 'login.html', {'message': 'å‘ç”Ÿå†…éƒ¨é”™è¯¯ï¼Œè¯·è”ç³»ç®¡ç†å‘˜'})
+            return render(request, 'login.html', {'message': '·¢ÉúÄÚ²¿´íÎó£¬ÇëÁªÏµ¹ÜÀíÔ±'})
 
 
 def timeline(request):
@@ -57,12 +74,12 @@ def timeline(request):
 
 def index(request):
     if not request.session.get('is_login'):
-        request.session['message'] = 'ç™»å½•ä¿¡æ¯å·²å¤±æ•ˆï¼Œè¯·é‡æ–°ç™»å…¥'
+        request.session['message'] = 'µÇÂ¼ĞÅÏ¢ÒÑÊ§Ğ§£¬ÇëÖØĞÂµÇÈë'
         return redirect('../login/')
     if request.method == 'POST':
         if 'logout' in request.POST:
             request.session.flush()
-            request.session['message'] = 'ç™»å‡ºæˆåŠŸï¼Œè¯·é‡æ–°ç™»å…¥'
+            request.session['message'] = 'µÇ³ö³É¹¦£¬ÇëÖØĞÂµÇÈë'
             return redirect('../login')
     ID = request.session['ID']
     user = StudentInfo.objects.get(studentID=ID)
@@ -79,7 +96,7 @@ def index(request):
 
 def search(request, keyword=''):
     if not request.session.get('is_login'):
-        request.session['message'] = 'ç™»å½•ä¿¡æ¯å·²å¤±æ•ˆï¼Œè¯·é‡æ–°ç™»å…¥'
+        request.session['message'] = 'µÇÂ¼ĞÅÏ¢ÒÑÊ§Ğ§£¬ÇëÖØĞÂµÇÈë'
         return redirect('../login/')
     if request.method == 'POST':
         select_list = request.POST.getlist('content[]')
@@ -100,6 +117,6 @@ def search(request, keyword=''):
             'score',
             'teacherID__teacherName')
         if not course_list.exists():
-            course_list = [{'errmsg': 'æ— æŸ¥è¯¢ç»“æœ'}]
+            course_list = [{'errmsg': 'ÎŞ²éÑ¯½á¹û'}]
         return render(request, 'test.html', {'course_list': list(course_list)})
     # Create your views here.
